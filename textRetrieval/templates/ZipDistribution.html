@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+	Transit by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transit by TEMPLATED</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+    <script src="../../static/js/jquery.min.js"></script>
+    <script src="../../static/js/skel.min.js"></script>
+    <script src="../../static/js/skel-layers.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/style.css"/>
+    <link rel="stylesheet" href="../../static/css/style-large.css"/>
+</head>
+<body class="landing">
+
+<!-- Banner -->
+<section id="banner">
+    <ul class="actions">
+        <li>
+            <br>
+            <a id="ZipDistribution" class="button big">ZipDistribution</a>
+        </li>
+    </ul>
+</section>
+
+<!-- One -->
+<section id="one" class="wrapper style1 special" style=" height: 100%;">
+    <div>
+        <div id="ALL_chart" style="float:left; width: 900px; height: 500px"></div>
+        <div id="ALL_chart2" style="float:left; width: 900px; height: 500px"></div>
+        <div id="Pubmed_chart" style="float:left; width: 900px; height: 500px"></div>
+        <div id="Pubmed_chart2" style="float:left; width: 900px; height: 500px"></div>
+        <div id="Twitter_chart" style="float:left; width: 900px; height: 500px"></div>
+        <div id="Twitter_chart2" style="float:left; width: 900px; height: 500px"></div>
+    </div>>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        google.charts.load('current', {'packages': ['corechart']});
+
+        $("#ZipDistribution").click(function () {
+            $('#result').empty();
+            var intput = $("#inputtext").val();
+            $.get("../ZipDistribution_Query/",
+                {
+                    "intput": intput,
+                },
+                function (data) {
+
+                    var DataTable = google.visualization.arrayToDataTable(data['ALL'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'ALL_chart','All'));
+                    var DataTable = google.visualization.arrayToDataTable(data['ALL2'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'ALL_chart2','All'));
+
+                    var DataTable = google.visualization.arrayToDataTable(data['Pubmed'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'Pubmed_chart','Pubmed'));
+                    var DataTable = google.visualization.arrayToDataTable(data['Pubmed2'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'Pubmed_chart2','Pubmed'));
+
+                    var DataTable = google.visualization.arrayToDataTable(data['Twitter'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'Twitter_chart','Twitter'));
+                    var DataTable = google.visualization.arrayToDataTable(data['Twitter2'])
+                    google.charts.setOnLoadCallback(drawChart(DataTable,'Twitter_chart2','Twitter'));
+                });
+        });
+
+        function drawChart(data,id,title) {
+
+            var options = {
+                title: title,
+                curveType: 'function',
+                legend: {position: 'bottom'}
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById(id));
+
+            chart.draw(data, options);
+        }
+    });
+</script>
+</body>
+</html>

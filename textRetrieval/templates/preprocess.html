@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+	Transit by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html lang="en" style="height: 100%;">
+	<head>
+		<meta charset="UTF-8">
+		<title>Preprocess</title>
+		<meta http-equiv="content-type" content="/static/fonts/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/skel.min.js"></script>
+		<script src="/static/js/skel-layers.min.js"></script>
+		<script src="/static/js/init.js"></script>
+
+		<link href="/static/css/skel.css" rel="stylesheet" type="text/css" />
+		<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="/static/css/style-xlarge.css" rel="stylesheet" type="text/css" />
+
+	</head>
+	<body class="landing"  >
+	
+        <!-- Header -->
+        <header id="header">
+                <nav id="nav">
+					<ul>
+                          <form enctype="multipart/form-data" action="/uploadFile/" method="post" >
+                            <input type="file" name="myfile" class="6u 12u$(4)"/>
+                            <input type="submit"  value="upload" class="special"/>
+                         </form>
+				    </ul>
+                </nav>
+        </header>
+		<!-- Banner -->
+		<section id="banner" >	
+		  <ul class="actions">
+				<li>
+					<a id="preprocess"  class="button big">preprocess</a>
+				</li>
+
+                <li>
+					<a id="preprocess_spimi"  class="button big">preprocess_spimi</a>
+				</li>
+		  </ul>		
+		</section>
+		
+		<!-- One -->
+		<section id="one"  class="wrapper style1 special"  style=" height: 100%;">
+			<center><div id ="result" style="width:80%;" align="left"> </br></br> </div></center>
+		</section>
+
+
+
+        <script>
+            $(document).ready(function() {
+                $("#preprocess").click(function() {
+                    var intput = $("#inputtext").val();
+                    $.get("../Preprocess_Query/",
+                    {
+                        "intput": 1,
+                    },
+                    function(data) {
+                        $('#result').empty();
+                        //返回值 data 在這裡是一個列表
+                        for (var i = data.length - 1; i >= 0; i--) {
+                            $('#result').append('<p>');
+                            $('#result').append('sentence :' + data[i][1]);
+                            $('#result').append('&emsp;word :' + data[i][2]);
+                            $('#result').append('&emsp;character :' + data[i][3]);
+                            $('#result').append('<br>' + data[i][0]);
+                            // 把 data 的每一項顯示在網頁上
+                            //$('#result').append('<p>' + data[i]);
+                        }
+                    });
+                });
+
+                $("#preprocess_spimi").click(function() {
+                    var intput = $("#inputtext").val();
+                    $.get("../Preprocess_spimi_Query/",
+                    {
+                        "intput": 1,
+                    },
+                    function(data) {
+                        $('#result').empty();
+                        //返回值 data 在這裡是一個列表
+                        for (var i = data.length - 1; i >= 0; i--) {
+                            $('#result').append('<p>');
+                            $('#result').append('sentence :' + data[i][1]);
+                            $('#result').append('&emsp;word :' + data[i][2]);
+                            $('#result').append('&emsp;character :' + data[i][3]);
+                            $('#result').append('<br>' + data[i][0]);
+                            // 把 data 的每一項顯示在網頁上
+                            //$('#result').append('<p>' + data[i]);
+                        }
+                    });
+                });
+            });
+        </script>
+
+	</body>
+</html>

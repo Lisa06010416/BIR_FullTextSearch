@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+	Transit by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transit by TEMPLATED</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+    <script src="../../static/js/jquery.min.js"></script>
+    <script src="../../static/js/skel.min.js"></script>
+    <script src="../../static/js/skel-layers.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/style.css"/>
+    <link rel="stylesheet" href="../../static/css/style-large.css"/>
+
+</head>
+<body class="landing">
+
+<!-- Banner -->
+<section id="banner">
+    <a id="correctWord"></a>
+    <center><input id="inputtext" type="text" style="width:50%;"></center>
+    <ul class="actions">
+        <li>
+            <br>
+            <a id="search" class="button big">SEARCH</a>
+        </li>
+    </ul>
+
+</section>
+
+<!-- One -->
+<section id="one" class="wrapper style1 special" style=" height: 100%;">
+    <center>
+        <div id="result" style="width:80%; text-justify: distribute; text-align:justify;"><br><br><br></div>
+    </center>
+</section>
+
+<script>
+    var cw = "";
+    $(document).ready(function () {
+        $("#search").click(function () {
+            var intput = $("#inputtext").val();
+            $.get("../FullTextSearch_Query/",
+                {
+                    "intput": intput,
+                },
+                function (data) {
+                    $('#result').empty();
+                    $('#correctWord').empty();
+                    $('#correctWord').removeClass('button special')
+                    if (data[0]['msg'] != 'Non') {
+                        $('#correctWord').addClass('button special')
+                        $('#correctWord').append(data[0]['msg'])
+                    }
+                    if (data.length == 1) {
+                        $('#result').append('NO data!');
+                    }
+                    else {
+                        for (var i = 1; i < data.length; i++) {
+                            $('#result').append('<p>');
+                            $('#result').append('sentence :' + data[i]['sentencenum']);
+                            $('#result').append('&emsp;word :' + data[i]['wordnum']);
+                            $('#result').append('&emsp;character :' + data[i]['characternum']);
+                            $('#result').append('&emsp;TF :' + data[i]['TF']);
+                            $('#result').append('<br>' + data[i]['text']);
+                        }
+                    }
+                });
+        });
+
+        $("#correctWord").click(function () {
+            var intput = $("#inputtext").val();
+            $.get("../FullTextSearch_Query/",
+                {
+                    "intput": document.getElementById('correctWord').innerText,
+                },
+                function (data) {
+                    document.getElementById("inputtext").value = document.getElementById('correctWord').innerText
+                    $('#result').empty();
+                    $('#correctWord').empty();
+                    $('#correctWord').removeClass('button special')
+                    if (data[0]['msg'] != 'Non') {
+                        $('#correctWord').addClass('button special')
+                        $('#correctWord').append(''+data[0]['msg'])
+                    }
+                    if (data.length == 1) {
+                        $('#result').append('NO data!');
+                    }
+                    else {
+                        for (var i = 1; i < data.length; i++) {
+                            $('#result').append('<p>');
+                            $('#result').append('sentence :' + data[i]['sentencenum']);
+                            $('#result').append('&emsp;word :' + data[i]['wordnum']);
+                            $('#result').append('&emsp;character :' + data[i]['characternum']);
+                            $('#result').append('&emsp;TF :' + data[i]['TF']);
+                            $('#result').append('<br>' + data[i]['text']);
+                        }
+                    }
+                    $('#correctWord').empty();
+                    $('#correctWord').removeClass('button special')
+                });
+        });
+    });
+</script>
+
+</body>
+</html>
